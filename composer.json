@@ -1,13 +1,13 @@
 {
-    "name": "whc/yii2-flysystem-wrapper",
+    "name": "hossein142001/yii2-flysystem-wrapper",
     "description": "yii2 flysystem wrapper",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","file","filemanager", "flysystem wrapper", "flysystem"],
     "license": "GPL-3.0",
     "authors": [
         {
-            "name": "ehsan rezaei",
-            "email": "mr.rezaee121@gmail.com"
+            "name": "hossein abaei",
+            "email": "hossein142001@gmail.com"
         }
     ],
     "require": {
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "whc\\flysystemwrapper\\": ""
+            "hossein142001\\flysystemwrapper\\": ""
         }
     }
 }

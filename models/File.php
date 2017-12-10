@@ -1,8 +1,8 @@
 <?php
-namespace whc\flysystemwrapper\models;
+namespace hossein142001\flysystemwrapper\models;
 
 use Yii;
-use yii\db\ActiveRecord;
+use whc\common\components\ActiveRecord;
 
 /**
  * This is the model class for table "{{%file}}".
