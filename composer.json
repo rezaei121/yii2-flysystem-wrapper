@@ -12,7 +12,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "whc-projects/flysystem-pdo-adapter": "dev-master",
+        "whc-projects/flysystem-pdo-adapter": "*",
         "creocoder/yii2-flysystem": "0.8.*"
     },
     "autoload": {
