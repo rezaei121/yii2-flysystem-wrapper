@@ -4,7 +4,6 @@ namespace hossein142001\flysystemwrapper;
 
 use hossein142001\flysystemwrapper\models\File;
 use hossein142001\flysystemwrapper\models\FileMetadata;
-use hossein142001\flysystemwrapper\models\FileStorage;
 use Yii;
 use yii\i18n\PhpMessageSource;
 
@@ -32,27 +31,23 @@ class FlysystemWrapper extends \yii\base\Widget
     {
         $config = new \League\Flysystem\Config;
 
-        foreach ((array)$files as $file)
-        {
+        foreach ((array)$files as $file) {
             $filePath = Yii::getAlias($data['path']) . '/' . $file->name;
             $fileContent = file_get_contents($file->tempName);
 
-            if(Yii::$app->fs->write($filePath, $fileContent, $config) !== false)
-            {
+            if (Yii::$app->fs->write($filePath, $fileContent, $config) !== false) {
                 $fileModel = new File;
                 $fileModel->file_name = $file->name;
                 $fileModel->path = $filePath;
                 $fileModel->size = $file->size;
                 $fileModel->mime_type = $file->type;
-                $fileModel->context = isset($data['context'])? $data['context'] : null;
-                $fileModel->version = isset($data['version'])? $data['version'] : null;
+                $fileModel->context = isset($data['context']) ? $data['context'] : null;
+                $fileModel->version = isset($data['version']) ? $data['version'] : null;
                 $fileModel->hash = sha1(uniqid(rand(), TRUE));
                 $fileModel->save();
 
-                if($fileModel->save())
-                {
-                    foreach ((array)$data['metadata'] as $metadata => $value)
-                    {
+                if ($fileModel->save()) {
+                    foreach ((array)$data['metadata'] as $metadata => $value) {
                         $fileMetadataModel = new FileMetadata();
                         $fileMetadataModel->file_id = $fileModel->id;
                         $fileMetadataModel->metadata = $metadata;
@@ -60,13 +55,11 @@ class FlysystemWrapper extends \yii\base\Widget
                         $fileMetadataModel->save();
                     }
                 }
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
-        return true;
+        return $fileModel;
     }
 
     /**
@@ -91,20 +84,18 @@ class FlysystemWrapper extends \yii\base\Widget
      */
     public function readByHash($hash)
     {
-        $fileModel = File::find()->where(['hash' => $hash, 'deleted_time' => null])->one();
-        $fileStorageModel = FileStorage::find()->where(['path' => $fileModel->path])->one();
+        $fileModel = File::find()->andWhere(['hash' => $hash])->one();
 
-        if($fileModel !== false && $fileStorageModel !== false)
-        {
+        if ($fileModel && Yii::$app->fs->has($fileModel->path)) {
             header('Content-Description: File Transfer');
             header("Content-Type: " . $fileModel->mime_type);
-            header('Content-Disposition: inline; filename="' . $fileModel->file_name);
+            header('Content-Disposition: inline; filename='. $fileModel->file_name);
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
             header('Content-Length: ' . $fileModel->size);
 
-            echo Yii::$app->fs->read($fileStorageModel->path);
+            echo Yii::$app->fs->read($fileModel->path);
         }
         return false;
     }
@@ -126,10 +117,8 @@ class FlysystemWrapper extends \yii\base\Widget
 
         $i = 1;
 
-        foreach ($params as $meta => $value)
-        {
-            if(in_array($meta, $specialFields))
-            {
+        foreach ($params as $meta => $value) {
+            if (in_array($meta, $specialFields)) {
                 $fileModel->andWhere([$meta => $value]);
                 continue;
             }
@@ -149,8 +138,7 @@ class FlysystemWrapper extends \yii\base\Widget
     public static function deleteByHash($hash)
     {
         $fileModel = File::find()->where(['hash' => $hash, 'deleted_time' => null])->one();
-        if($fileModel !== null)
-        {
+        if ($fileModel !== null) {
             return Yii::$app->fs->delete($fileModel);
         }
         return false;
