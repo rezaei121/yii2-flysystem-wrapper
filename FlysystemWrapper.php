@@ -30,7 +30,7 @@ class FlysystemWrapper extends \yii\base\Widget
     public static function upload($files, $data)
     {
         $config = new \League\Flysystem\Config;
-
+		$ret = [];
         foreach ((array)$files as $file) {
             $filePath = Yii::getAlias($data['path']) . '/' . $file->name;
             $fileContent = file_get_contents($file->tempName);
@@ -44,7 +44,6 @@ class FlysystemWrapper extends \yii\base\Widget
                 $fileModel->context = isset($data['context']) ? $data['context'] : null;
                 $fileModel->version = isset($data['version']) ? $data['version'] : null;
                 $fileModel->hash = sha1(uniqid(rand(), TRUE));
-                $fileModel->save();
 
                 if ($fileModel->save()) {
                     foreach ((array)$data['metadata'] as $metadata => $value) {
@@ -55,11 +54,13 @@ class FlysystemWrapper extends \yii\base\Widget
                         $fileMetadataModel->save();
                     }
                 }
+				
+				$ret[] = $fileModel;
             } else {
                 return false;
             }
         }
-        return $fileModel;
+        return $ret;
     }
 
     /**
