@@ -83,7 +83,7 @@ class FlysystemWrapper extends \yii\base\Widget
      * @param $hash
      * @return bool
      */
-    public function readByHash($hash)
+    public static function readByHash($hash)
     {
         $fileModel = File::find()->andWhere(['hash' => $hash])->one();
 
@@ -106,7 +106,7 @@ class FlysystemWrapper extends \yii\base\Widget
      * @param $params
      * @return array|\yii\db\ActiveRecord[]
      */
-    public function searchByParams($params)
+    public static function searchByParams($params)
     {
         // special fields is fields that have exist in file model.
         $specialFields = ['context', 'version'];
