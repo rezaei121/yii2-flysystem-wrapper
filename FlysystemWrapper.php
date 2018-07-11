@@ -30,7 +30,7 @@ class FlysystemWrapper extends \yii\base\Widget
     public static function upload($files, $data)
     {
         $config = new \League\Flysystem\Config;
-		$ret = [];
+        $ret = [];
         foreach ((array)$files as $file) {
             $filePath = Yii::getAlias($data['path']) . '/' . $file->name;
             $fileContent = file_get_contents($file->tempName);
@@ -54,8 +54,8 @@ class FlysystemWrapper extends \yii\base\Widget
                         $fileMetadataModel->save();
                     }
                 }
-				
-				$ret[] = $fileModel;
+
+                $ret[] = $fileModel;
             } else {
                 return false;
             }
@@ -83,20 +83,23 @@ class FlysystemWrapper extends \yii\base\Widget
      * @param $hash
      * @return bool
      */
-    public static function readByHash($hash)
+    public static function readByHash($hash, $return = true)
     {
         $fileModel = File::find()->andWhere(['hash' => $hash])->one();
 
         if ($fileModel && Yii::$app->fs->has($fileModel->path)) {
-            header('Content-Description: File Transfer');
-            header("Content-Type: " . $fileModel->mime_type);
-            header('Content-Disposition: inline; filename='. $fileModel->file_name);
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . $fileModel->size);
-
-            echo Yii::$app->fs->read($fileModel->path);
+            if ($return) {
+                header('Content-Description: File Transfer');
+                header("Content-Type: " . $fileModel->mime_type);
+                header('Content-Disposition: inline; filename=' . $fileModel->file_name);
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . $fileModel->size);
+                echo Yii::$app->fs->read($fileModel->path);
+            } else {
+                return ['content' => Yii::$app->fs->read($fileModel->path)];
+            }
         }
         return false;
     }
