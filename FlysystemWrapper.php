@@ -31,6 +31,12 @@ class FlysystemWrapper extends \yii\base\Widget
     {
         $config = new \League\Flysystem\Config;
         $ret = [];
+        
+        if(is_object($files))
+        {
+            $files = [$files];
+        }
+        
         foreach ((array)$files as $file) {
             $filePath = Yii::getAlias($data['path']) . '/' . $file->name;
             $fileContent = file_get_contents($file->tempName);
