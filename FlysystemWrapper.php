@@ -101,7 +101,7 @@ class FlysystemWrapper extends \yii\base\Widget
                 header('Expires: 0');
                 header('Cache-Control: must-revalidate');
                 header('Pragma: public');
-                header('Content-Length: ' . $fileModel->size);
+                //header('Content-Length: ' . $fileModel->size);
                 echo Yii::$app->fs->read($fileModel->path);
             } else {
                 return ['content' => Yii::$app->fs->read($fileModel->path)];
