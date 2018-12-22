@@ -29,7 +29,6 @@ class FlysystemWrapper extends \yii\base\Widget
      */
     public static function upload($files, $data)
     {
-        $config = new \League\Flysystem\Config;
         $ret = [];
         
         if(is_object($files))
@@ -41,7 +40,7 @@ class FlysystemWrapper extends \yii\base\Widget
             $filePath = Yii::getAlias('@root') . '/' . $data['path'] . '/' . $file->name;
             $fileContent = file_get_contents($file->tempName);
 
-            if (Yii::$app->fs->write($filePath, $fileContent, $config) !== false) {
+            if (Yii::$app->fs->write($filePath, $fileContent) !== false) {
                 $fileModel = new File;
                 $fileModel->file_name = $file->name;
                 $fileModel->path = $filePath;
