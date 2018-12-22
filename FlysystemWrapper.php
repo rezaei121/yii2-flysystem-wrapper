@@ -27,7 +27,7 @@ class FlysystemWrapper extends \yii\base\Widget
      * @param $data
      * @return bool
      */
-    public static function upload($files, $data)
+    public static function upload($files, $data , $file_name = null)
     {
         $ret = [];
         
@@ -37,12 +37,13 @@ class FlysystemWrapper extends \yii\base\Widget
         }
         
         foreach ((array)$files as $file) {
-            $filePath = Yii::getAlias('@root') . '/' . $data['path'] . '/' . $file->name;
+            $file_name = $file_name ?? $file->name;
+            $filePath = Yii::getAlias('@root') . '/' . $data['path'] . '/' . $file_name;
             $fileContent = file_get_contents($file->tempName);
 
             if (Yii::$app->fs->write($filePath, $fileContent) !== false) {
                 $fileModel = new File;
-                $fileModel->file_name = $file->name;
+                $fileModel->file_name = $file_name;
                 $fileModel->path = $filePath;
                 $fileModel->size = $file->size;
                 $fileModel->mime_type = $file->type;
