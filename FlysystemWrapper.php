@@ -38,7 +38,7 @@ class FlysystemWrapper extends \yii\base\Widget
         }
         
         foreach ((array)$files as $file) {
-            $filePath = Yii::getAlias($data['path']) . '/' . $file->name;
+            $filePath = Yii::getAlias('@root') . '/' . $data['path'] . '/' . $file->name;
             $fileContent = file_get_contents($file->tempName);
 
             if (Yii::$app->fs->write($filePath, $fileContent, $config) !== false) {
