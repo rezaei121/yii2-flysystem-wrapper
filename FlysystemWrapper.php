@@ -134,7 +134,7 @@ class FlysystemWrapper extends \yii\base\Widget
             }
 
             $fmAlais = 'fm_' . $i++;
-            $fileModel->innerJoin([$fmAlais => FileMetadata::tableName()], "f.id={$fmAlais}.file_id AND {$fmAlais}.metadata=:meta_param AND {$fmAlais}.value=:meta_value", ['meta_param' => $meta, 'meta_value' => $value]);
+            $fileModel->innerJoin([$fmAlais => FileMetadata::tableName()], "f.id={$fmAlais}.file_id AND {$fmAlais}.metadata=$meta AND {$fmAlais}.value=$value");
         }
         $fileModel->andWhere(['f.deleted_time' => null]);
 
