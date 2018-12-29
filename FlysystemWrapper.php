@@ -149,7 +149,7 @@ class FlysystemWrapper extends \yii\base\Widget
     {
         $fileModel = File::find()->where(['hash' => $hash, 'deleted_time' => null])->one();
         if ($fileModel !== null) {
-            return Yii::$app->fs->delete($fileModel);
+            return Yii::$app->fs->delete($fileModel->path);
         }
         return false;
     }
