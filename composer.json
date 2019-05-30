@@ -1,5 +1,5 @@
 {
-    "name": "rezaei121/yii2-flysystem-wrapper",
+    "name": "developit/yii2-flysystem-wrapper",
     "description": "yii2 flysystem wrapper",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","file","filemanager", "flysystem wrapper", "flysystem"],
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "rezaei121\\flysystemwrapper\\": ""
+            "developit\\flysystemwrapper\\": ""
         }
     }
 }
