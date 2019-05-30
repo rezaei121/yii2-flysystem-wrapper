@@ -16,14 +16,14 @@ php composer.phar require --prefer-dist hossein142001/yii2-flysystem-wrapper "*"
 or add
 
 ```
-"hossein142001/yii2-flysystem-wrapper": "*"
+"rezaei121/yii2-flysystem-wrapper": "*"
 ```
 
 to the require section of your `composer.json` file.
 
 then up migrations
 ```
-php yii migrate/up --migrationPath=vendor/hossein142001/yii2-flysystem-wrapper/migrations
+php yii migrate/up --migrationPath=vendor/rezaei121/yii2-flysystem-wrapper/migrations
 ```
 
 Usage/Features
@@ -72,21 +72,6 @@ return FlysystemWrapper::getByHash($hashKey);
 ?>
 ```
 
-read a file by hash key
-```php
-<?php
-$hashKey = 'XXX';
-return FlysystemWrapper::readByHash($hashKey);
-?>
-```
-
-delete a file by hash key
-```php
-<?php
-$hashKey = 'XXX';
-return FlysystemWrapper::deleteByHash($hashKey);
-?>
-```
 note: delete method is logical
 
 search file(s) by metadatas or file model spesial attributes
