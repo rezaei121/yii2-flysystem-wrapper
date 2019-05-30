@@ -22,34 +22,35 @@ class m171015_085210_flysystem_wrapper extends Migration
             'path' => $this->string(255)->notNull()->unique(),
             'size' => $this->integer()->notNull(),
             'mime_type' => $this->string(25)->notNull(),
-            'context' => $this->string(100)->null(),
-            'version' => $this->integer()->null(),
-            'hash' => $this->string(64)->notNull()->unique(),
-            'created_time' => $this->timestamp(),
-            'created_user_id' => $this->integer(),
-            'modified_time' => $this->timestamp(),
-            'modified_user_id' => $this->integer(),
-            'deleted_time' => $this->timestamp(),
+            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'created_user_id' => $this->bigInteger()->notNull(),
+            'updated_at' => $this->timestamp(),
+            'updated_user_id' => $this->bigInteger(),
+            'deleted_at' => $this->timestamp(),
+            'deleted_user_id' => $this->bigInteger(),
         ], $tableOptions);
+
+        $this->addForeignKey('6721_created_user_id_file_fkey', '{{%file}}', 'created_user_id', '{{%user}}', 'id');
+        $this->addForeignKey('6721_updated_user_id_file_fkey', '{{%file}}', 'updated_user_id', '{{%user}}', 'id');
+        $this->addForeignKey('6721_deleted_user_id_file_fkey', '{{%file}}', 'deleted_user_id', '{{%user}}', 'id');
 
         $this->createTable('{{%file_metadata}}', [
             'id' => $this->primaryKey(),
             'file_id' => $this->integer()->notNull(),
             'metadata' => $this->string(255)->notNull(),
             'value' => $this->string(255)->notNull(),
-            'created_time' => $this->timestamp(),
-            'created_user_id' => $this->integer(),
-            'modified_time' => $this->timestamp(),
-            'modified_user_id' => $this->integer(),
-            'deleted_time' => $this->timestamp(),
+            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'created_user_id' => $this->bigInteger()->notNull(),
+            'updated_at' => $this->timestamp(),
+            'updated_user_id' => $this->bigInteger(),
+            'deleted_at' => $this->timestamp(),
+            'deleted_user_id' => $this->bigInteger(),
         ], $tableOptions);
 
 
-        $this->addForeignKey('fk_file_created_user_id', '{{%file}}', 'created_user_id', '{{%user}}', 'id');
-        $this->addForeignKey('fk_file_modified_user_id', '{{%file}}', 'modified_user_id', '{{%user}}', 'id');
-
-        $this->addForeignKey('fk_file_metadata_created_user_id', '{{%file_metadata}}', 'created_user_id', '{{%user}}', 'id');
-        $this->addForeignKey('fk_file_metadata_modified_user_id', '{{%file_metadata}}', 'modified_user_id', '{{%user}}', 'id');
+        $this->addForeignKey('6721_created_user_id_file_metadata_fkey', '{{%file_metadata}}', 'created_user_id', '{{%user}}', 'id');
+        $this->addForeignKey('6721_updated_user_id_file_metadata_fkey', '{{%file_metadata}}', 'updated_user_id', '{{%user}}', 'id');
+        $this->addForeignKey('6721_deleted_user_id_file_metadata_fkey', '{{%file_metadata}}', 'deleted_user_id', '{{%user}}', 'id');
 
         $this->addForeignKey('fk_file_metadata', '{{%file_metadata}}', 'file_id', '{{%file}}', 'id');
     }
